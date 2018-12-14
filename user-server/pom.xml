@@ -72,6 +72,10 @@
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.zhongkouwei</groupId>
             <artifactId>user-common</artifactId>
         </dependency>
