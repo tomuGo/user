@@ -1,0 +1,35 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database: mysql
+  datasource:
+    url: jdbc:mysql://ubuntu:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: ming
+    max-idle: 20
+  redis:
+    database: 0
+    host: ubuntu
+    port: 6379
+rocketmq:
+  producer:
+    namesrvAddr: rocketmq:9876
+    groupName: IDENTIFY
+    topic: MAIL_IDENTIFY
+    tag: MAIL_IDENTIFY
+    consumeThreadMin: 20
+    consumeThreadMax: 64
+zhongkouwei:
+  subject: qwe
+  verifySize: 6
+  redisPrefix: ZKW
+  redisPrefixMail: MAIL_CERTIFY
+  timeOut: 120  # minutes
+  uploadFile: /home/upload/pic/
+  uploadFileWindow: D:\pic\
+
+
+

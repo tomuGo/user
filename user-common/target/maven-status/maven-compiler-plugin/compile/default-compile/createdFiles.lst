@@ -1,0 +1,12 @@
+com\zhongkouwei\user\common\enums\AccountType.class
+com\zhongkouwei\user\common\model\ResultSub.class
+com\zhongkouwei\user\common\model\RoleInfo.class
+com\zhongkouwei\user\common\AppConstants.class
+com\zhongkouwei\user\common\group\Group.class
+com\zhongkouwei\user\common\group\Group$updateRole.class
+com\zhongkouwei\user\common\group\Group$insertRole.class
+com\zhongkouwei\user\common\model\ThirdpartUser.class
+com\zhongkouwei\user\common\enums\UserStatus.class
+com\zhongkouwei\user\common\group\Group$insertUser.class
+com\zhongkouwei\user\common\group\Group$updateUser.class
+com\zhongkouwei\user\common\model\UserInfo.class
