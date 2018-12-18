@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(value = AppConstants.APP_PATH)
+@FeignClient(value = AppConstants.APP)
 public interface RoleClient {
 
-    @RequestMapping(value = AppConstants.APP_PATH +"roles/user/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = AppConstants.USER_URL +"roles/user/{id}",method = RequestMethod.GET)
     ResultSub<List<RoleInfo>> getRoleInfosByUserId(@PathVariable("id")Integer userId);
 }

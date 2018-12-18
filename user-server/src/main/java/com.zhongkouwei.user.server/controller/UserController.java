@@ -1,6 +1,7 @@
 package com.zhongkouwei.user.server.controller;
 
 import com.zhongkouwei.user.common.AppConstants;
+import com.zhongkouwei.user.common.model.PasswordModel;
 import com.zhongkouwei.user.common.model.ResultSub;
 import com.zhongkouwei.user.common.model.UserInfo;
 import com.zhongkouwei.user.server.component.SecurityComponent;
@@ -24,7 +25,7 @@ import java.io.*;
  **/
 @RestController
 @Slf4j
-@RequestMapping(value = AppConstants.APP_PATH)
+@RequestMapping(value = AppConstants.USER_URL)
 public class UserController {
 
     @Autowired
@@ -69,11 +70,9 @@ public class UserController {
         return new ResultSub<>(user);
     }
 
-    @RequestMapping(value = "user/{id}/updatePassword", method = RequestMethod.GET)
-    public ResultSub<Boolean> updatePassword(@PathVariable("id") Integer userId,
-                                             @RequestParam("oldPassword") String olePassword,
-                                             @RequestParam("newPassword") String newPassword) {
-        userService.updatePassword(userId, newPassword, olePassword);
+    @RequestMapping(value = "user/updatePassword", method = RequestMethod.PUT)
+    public ResultSub<Boolean> updatePassword(@RequestBody PasswordModel passwordModel) {
+        userService.updatePassword(passwordModel);
         return new ResultSub<>(Boolean.TRUE);
     }
 

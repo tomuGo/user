@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = AppConstants.APP_PATH)
+@RequestMapping(value = AppConstants.USER_URL)
 public class RoleController {
 
     @Autowired

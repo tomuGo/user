@@ -22,18 +22,18 @@ public class UserInfo implements Serializable {
     @Id
     private Integer userId;
 
-    @Pattern(regexp = "^[\\w\\u4e00-\\u9fa5]+$", message = "用户名格式不正确，只能由数字/字母/汉字/下划线组成", groups = {
-            Group.insertUser.class, Group.updateUser.class
-    })
+    /*@Pattern(regexp = "^[\\w\\u4e00-\\u9fa5]+$", message = "用户名格式不正确，只能由数字/字母/汉字/下划线组成", groups = {
+
+    })*/
     private String username;
 
-    @Pattern(regexp = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
-            message = "邮箱格式不正确", groups = {Group.insertUser.class,Group.updateUser.class
-    })
+    /*@Pattern(regexp = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
+            message = "邮箱格式不正确", groups = {
+    })*/
     private String email;
 
-    @Pattern(regexp = "\\d{11}", message = "手机号格式不正确", groups = {
-    })
+    /*@Pattern(regexp = "\\d{11}", message = "手机号格式不正确", groups = {
+    })*/
     private String phone;
 
     private String password;

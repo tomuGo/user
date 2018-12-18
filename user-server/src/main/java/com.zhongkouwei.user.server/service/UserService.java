@@ -2,6 +2,7 @@ package com.zhongkouwei.user.server.service;
 
 import com.zhongkouwei.user.common.enums.UserStatus;
 import com.zhongkouwei.user.common.group.Group;
+import com.zhongkouwei.user.common.model.PasswordModel;
 import com.zhongkouwei.user.common.model.UserInfo;
 import com.zhongkouwei.user.server.component.SecurityComponent;
 import com.zhongkouwei.user.server.reporitory.UserRepository;
@@ -63,6 +64,7 @@ public class UserService {
         user.setPassword(password);
         user.setLoginTimes(0);
         user.setStatus(UserStatus.NORNAL.status);
+        user.setCreatedTime(new Date());
         UserInfo newUser = userRepository.save(user);
         return newUser.getUserId();
     }
@@ -82,12 +84,14 @@ public class UserService {
         userRepository.save(userInfo);
     }
 
-    public void updatePassword(Integer userId,String newPassword,String oldPassword){
-        UserInfo userInfo=userRepository.findOne(userId);
+    public void updatePassword(PasswordModel passwordModel){
+        validatorService.validate(passwordModel);
+        UserInfo userInfo=userRepository.findOne(passwordModel.getUserId());
         Assert.notNull(userInfo,"用户不存在");
-        String encOldPassword=SecurityComponent.encryptUserPassword(oldPassword);
-        Assert.isTrue(userInfo.getPassword().equals(encOldPassword),"密码不正确");
-        userRepository.updatePassword(userId,newPassword);
+        String encOldPassword=SecurityComponent.encryptUserPassword(passwordModel.getOldPassword());
+        Assert.isTrue(userInfo.getPassword().equals(encOldPassword),"原密码不正确");
+        String password=SecurityComponent.encryptUserPassword(passwordModel.getNewPassword());
+        userRepository.updatePassword(passwordModel.getUserId(),password);
     }
 
     private UserInfo converUpdateUser(Integer userId, UserInfo updateUser){

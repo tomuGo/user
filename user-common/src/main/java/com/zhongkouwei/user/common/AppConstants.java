@@ -2,7 +2,9 @@ package com.zhongkouwei.user.common;
 
 public interface AppConstants {
 
-    String APP_PATH= "user";
+    String APP= "user";
+
+    String USER_URL="user/";
 
     Byte NORMAL = 1;
 
