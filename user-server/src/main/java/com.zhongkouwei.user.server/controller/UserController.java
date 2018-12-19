@@ -57,14 +57,14 @@ public class UserController {
         return new ResultSub<>(userId);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "user/{id}", method = RequestMethod.PUT)
     public ResultSub<Boolean> updateUser(@RequestBody UserInfo user, @PathVariable("id") Integer userId) {
         user.setUserId(userId);
         userService.updateUser(user);
         return new ResultSub<>(Boolean.TRUE);
     }
 
-    @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/{userId}", method = RequestMethod.GET)
     public ResultSub<UserInfo> getUser(@PathVariable(value = "userId") Integer userId) {
         UserInfo user = userRepository.findOne(userId);
         return new ResultSub<>(user);

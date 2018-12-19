@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(value = AppConstants.APP)
 public interface UserClient {
 
-    @RequestMapping(value = AppConstants.USER_URL + "/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = AppConstants.USER_URL + "user/{userId}", method = RequestMethod.GET)
     ResultSub<UserInfo> getUser(@PathVariable(value = "userId") Integer userId);
 
     @RequestMapping(value = AppConstants.USER_URL + "login", method = RequestMethod.GET)
@@ -19,7 +19,7 @@ public interface UserClient {
     @RequestMapping(value = AppConstants.USER_URL + "user", method = RequestMethod.POST)
     ResultSub<Integer> addUser(@RequestBody UserInfo user);
 
-    @RequestMapping(value = AppConstants.USER_URL + "/user/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = AppConstants.USER_URL + "user/{id}", method = RequestMethod.PUT)
     ResultSub<Boolean> updateUser(@RequestBody UserInfo user, @PathVariable("id") Integer userId);
 
     @RequestMapping(value = AppConstants.USER_URL + "user/updatePassword", method = RequestMethod.PUT)
