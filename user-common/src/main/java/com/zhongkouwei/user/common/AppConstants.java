@@ -18,9 +18,9 @@ public interface AppConstants {
 
     Byte IS_MANAGE = 1;
 
-    String SESSION_USER = "userInfo: ";
+    String USERINFO = "userInfo: ";
 
-    String SESSION_ROLE = "roleInfo: ";
+    String ROLEINFO = "roleInfo: ";
 
     String HEADER_TOKEN = "token";
 

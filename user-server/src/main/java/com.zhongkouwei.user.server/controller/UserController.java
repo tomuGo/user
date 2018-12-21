@@ -4,6 +4,7 @@ import com.zhongkouwei.user.common.AppConstants;
 import com.zhongkouwei.user.common.model.PasswordModel;
 import com.zhongkouwei.user.common.model.ResultSub;
 import com.zhongkouwei.user.common.model.UserInfo;
+import com.zhongkouwei.user.server.component.RedisComponent;
 import com.zhongkouwei.user.server.component.SecurityComponent;
 import com.zhongkouwei.user.server.reporitory.EntityManagerMapper;
 import com.zhongkouwei.user.server.reporitory.UserRepository;
@@ -34,6 +35,8 @@ public class UserController {
     UserRepository userRepository;
     @Autowired
     EntityManagerMapper entityManagerMapper;
+    @Autowired
+    RedisComponent redisComponent;
 
     @Value("${zhongkouwei.uploadFile}")
     String uploadFile;
@@ -41,12 +44,12 @@ public class UserController {
     @Value("${zhongkouwei.uploadFileWindow}")
     String uploadFileWindow;
 
-    @RequestMapping(value = "login",method = RequestMethod.GET)
-    public ResultSub<UserInfo> login(@RequestParam("account") String account, @RequestParam("password") String password){
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public ResultSub<UserInfo> login(@RequestParam("account") String account, @RequestParam("password") String password) {
         UserInfo userInfo = new UserInfo();
         userInfo.setAccount(account);
         userInfo.setPassword(SecurityComponent.encryptUserPassword(password));
-        UserInfo loginUser=entityManagerMapper.getLoginUserInfo(userInfo);
+        UserInfo loginUser = entityManagerMapper.getLoginUserInfo(userInfo);
         userService.login(loginUser);
         return new ResultSub<>(loginUser);
     }
@@ -66,8 +69,11 @@ public class UserController {
 
     @RequestMapping(value = "user/{userId}", method = RequestMethod.GET)
     public ResultSub<UserInfo> getUser(@PathVariable(value = "userId") Integer userId) {
-        UserInfo user = userRepository.findOne(userId);
-        return new ResultSub<>(user);
+        UserInfo userInfo = redisComponent.getUserInfoFromRedisByUserId(userId);
+        if (userInfo == null) {
+            userInfo = userRepository.findOne(userId);
+        }
+        return new ResultSub<>(userInfo);
     }
 
     @RequestMapping(value = "user/updatePassword", method = RequestMethod.PUT)
@@ -87,8 +93,7 @@ public class UserController {
         byte[] buf = new byte[4096];
         int length = bis.read(buf);
         //保存文件
-        while(length != -1)
-        {
+        while (length != -1) {
             bos.write(buf, 0, length);
             length = bis.read(buf);
         }
@@ -99,8 +104,8 @@ public class UserController {
         return new ResultSub<>(Boolean.TRUE);
     }
 
-    @RequestMapping(value = "user/pic",method = RequestMethod.GET)
-    public void getPic(@RequestParam("picUrl")String picUrl, HttpServletResponse resp) throws FileNotFoundException {
+    @RequestMapping(value = "user/pic", method = RequestMethod.GET)
+    public void getPic(@RequestParam("picUrl") String picUrl, HttpServletResponse resp) throws FileNotFoundException {
         OutputStream os = null;
         File file = new File(picUrl);
         FileInputStream is = new FileInputStream(file);

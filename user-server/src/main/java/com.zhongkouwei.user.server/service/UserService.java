@@ -1,9 +1,11 @@
 package com.zhongkouwei.user.server.service;
 
+import com.zhongkouwei.user.common.AppConstants;
 import com.zhongkouwei.user.common.enums.UserStatus;
 import com.zhongkouwei.user.common.group.Group;
 import com.zhongkouwei.user.common.model.PasswordModel;
 import com.zhongkouwei.user.common.model.UserInfo;
+import com.zhongkouwei.user.server.component.RedisComponent;
 import com.zhongkouwei.user.server.component.SecurityComponent;
 import com.zhongkouwei.user.server.reporitory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RedisComponent redisComponent;
 
     private static java.util.concurrent.BlockingQueue BlockingQueue=new ArrayBlockingQueue(10);
 
@@ -65,7 +70,9 @@ public class UserService {
         user.setLoginTimes(0);
         user.setStatus(UserStatus.NORNAL.status);
         user.setCreatedTime(new Date());
+        user.setPicUrl("1");
         UserInfo newUser = userRepository.save(user);
+        redisComponent.set(AppConstants.USERINFO+newUser.getUserId(),newUser);
         return newUser.getUserId();
     }
 
@@ -81,7 +88,8 @@ public class UserService {
             Assert.isTrue(boo, "用户名已存在");
         }
         UserInfo userInfo=converUpdateUser(user.getUserId(),user);
-        userRepository.save(userInfo);
+        UserInfo updateUser=userRepository.save(userInfo);
+        redisComponent.set(AppConstants.USERINFO+updateUser.getUserId(),updateUser);
     }
 
     public void updatePassword(PasswordModel passwordModel){
@@ -113,6 +121,12 @@ public class UserService {
         }
         if(!StringUtils.isEmpty(updateUser.getIntroduction())){
             userInfo.setIntroduction(updateUser.getIntroduction());
+        }
+        if(!StringUtils.isEmpty(updateUser.getPicUrl())){
+            userInfo.setPicUrl(updateUser.getPicUrl());
+        }
+        if(!StringUtils.isEmpty(updateUser.getSex())){
+            userInfo.setSex(updateUser.getSex());
         }
         return userInfo;
     }
