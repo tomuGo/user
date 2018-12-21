@@ -55,24 +55,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "user", method = RequestMethod.POST)
-    public ResultSub<Integer> addUser(@RequestBody UserInfo user) {
-        Integer userId = userService.addUser(user);
-        return new ResultSub<>(userId);
+    public ResultSub<UserInfo> addUser(@RequestBody UserInfo user) {
+        UserInfo newUser = userService.addUser(user);
+        return new ResultSub<>(newUser);
     }
 
     @RequestMapping(value = "user/{id}", method = RequestMethod.PUT)
-    public ResultSub<Boolean> updateUser(@RequestBody UserInfo user, @PathVariable("id") Integer userId) {
+    public ResultSub<UserInfo> updateUser(@RequestBody UserInfo user, @PathVariable("id") Integer userId) {
         user.setUserId(userId);
-        userService.updateUser(user);
-        return new ResultSub<>(Boolean.TRUE);
+        UserInfo update=userService.updateUser(user);
+        return new ResultSub<>(update);
     }
 
     @RequestMapping(value = "user/{userId}", method = RequestMethod.GET)
     public ResultSub<UserInfo> getUser(@PathVariable(value = "userId") Integer userId) {
-        UserInfo userInfo = redisComponent.getUserInfoFromRedisByUserId(userId);
-        if (userInfo == null) {
-            userInfo = userRepository.findOne(userId);
-        }
+        UserInfo userInfo = userRepository.findOne(userId);
         return new ResultSub<>(userInfo);
     }
 

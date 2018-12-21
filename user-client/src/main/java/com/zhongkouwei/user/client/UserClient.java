@@ -17,10 +17,10 @@ public interface UserClient {
     ResultSub<UserInfo> login(@RequestParam("account") String account, @RequestParam("password") String password);
 
     @RequestMapping(value = AppConstants.USER_URL + "user", method = RequestMethod.POST)
-    ResultSub<Integer> addUser(@RequestBody UserInfo user);
+    ResultSub<UserInfo> addUser(@RequestBody UserInfo user);
 
     @RequestMapping(value = AppConstants.USER_URL + "user/{id}", method = RequestMethod.PUT)
-    ResultSub<Boolean> updateUser(@RequestBody UserInfo user, @PathVariable("id") Integer userId);
+    ResultSub<UserInfo> updateUser(@RequestBody UserInfo user, @PathVariable("id") Integer userId);
 
     @RequestMapping(value = AppConstants.USER_URL + "user/updatePassword", method = RequestMethod.PUT)
     ResultSub<Boolean> updatePassword(@RequestBody PasswordModel passwordModel);
